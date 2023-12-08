@@ -1,0 +1,6 @@
+.idea
+.idea/*
+.idea/.
+.DS_Store
+*.backup
+src/src/__pycache__/*
