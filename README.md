@@ -3,7 +3,7 @@
 ## Info
 
 This repository contains the source needed to execute a container that hosts a simple api. Please follow the instructions to get the api running on your local system and then 
-implement automated test cases for the running api. Feel free to use whichever language/framework you are most comfortable with. 
+write automated test cases for the running api. Feel free to leverage whatever language/framework you are most comfortable with. 
 
 ## Installing dependencies 
 
