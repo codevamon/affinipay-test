@@ -36,7 +36,7 @@ http://127.0.0.1:5000/dogs
 
 ## API SPEC
 
-The api provides an endpoint to create, veiw and delete dogs from the system. The following operations are allowed
+The api provides an endpoint to create, veiw and delete dogs from the system. 
 
 End users are allowed to create dogs by POSTing to http://127.0.0.1:5000/dogs, they request payload should contain the following fields
 
