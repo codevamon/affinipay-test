@@ -23,7 +23,7 @@ def dogs_slash_id(dog_id):
 @app.route("/dogs/", methods = ['GET', 'DELETE', 'PUT', 'PATCH', 'POST'])
 def dogs():
     if request.method == 'GET':
-        return("All the dogs", 200)
+        return(data_store, 200)
     if request.method == 'POST':
         request_data = request.get_json()
         if check_payload(request_data):

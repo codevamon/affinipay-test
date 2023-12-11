@@ -22,7 +22,7 @@ git clone https://github.com/affinipay/candidate-exercise.git
 ## Building and Running Container
 To Build:
 ```aidl
-docker build -t excercize:1.0
+docker build -t excercize:1.0 .
 ```
 To Run:
 ```aidl
