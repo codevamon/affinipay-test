@@ -26,7 +26,7 @@ docker build -t excercize:1.0 .
 ```
 To Run:
 ```aidl
-docker run --name demo -it -p 5000:5000 excercize:1.0
+docker run --name demo -it -p 5000:5000 exercise:1.0
 ```
 You should now be able to access the api through this URL
 
@@ -36,9 +36,9 @@ http://127.0.0.1:5000/dogs
 
 ## API SPEC
 
-The api provides an endpoint to create, veiw and delete dogs from the system. 
+The api provides an endpoint to create, view and delete dogs from the system. 
 
-End users are allowed to create dogs by POSTing to http://127.0.0.1:5000/dogs, they request payload should contain the following fields
+End users are allowed to create dogs by POSTing to http://127.0.0.1:5000/dogs, the request payload should contain the following fields
 
 ```aidl
 {
