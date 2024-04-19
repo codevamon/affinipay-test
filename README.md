@@ -3,7 +3,7 @@
 ## Info
 
 This repository contains the source needed to execute a container that hosts a simple api. Please follow the instructions to get the api running on your local system and then 
-write automated test cases for the running api. Feel free to leverage whatever language/framework you are most comfortable with. 
+write automated test cases for the running api. Please make note of any bugs you find in the service in your response to us. Feel free to leverage whatever language/framework you are most comfortable with. 
 
 ## Installing dependencies 
 
@@ -22,7 +22,7 @@ git clone https://github.com/affinipay/candidate-exercise.git
 ## Building and Running Container
 To Build:
 ```aidl
-docker build -t excercize:1.0 .
+docker build -t exercise:1.0 .
 ```
 To Run:
 ```aidl
