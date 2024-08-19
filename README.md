@@ -19,6 +19,12 @@ Please install the following dependencies:
 git clone https://github.com/affinipay/candidate-exercise.git
 ```
 
+## IMPORTANT NOTE - Windows Users
+
+If you are using a Windows system to complete this exercise, make sure that your IED is setup to use LF rather than CRLF for EndOfLine(EoL). If your system is using the wrong EoL designator, you will receive a 'No Such File' error when attempting to start the container 
+See this post for more information:
+
+[CRLF to LF in VisualStudios](https://www.petersplanet.nl/index.php/2023/08/28/line-breaks-in-visual-studio-code-and-git-lf-vs-crlf/#:~:text=In%20VS%20Code%20you%20easily,the%20settings%20with%20the%20%E2%80%9Cfiles.)
 ## Building and Running Container
 To Build:
 ```aidl
