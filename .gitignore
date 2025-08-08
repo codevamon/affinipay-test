@@ -3,4 +3,7 @@
 .idea/.
 .DS_Store
 *.backup
-src/src/__pycache__/*
+src/src/__pycache__/*.venv/
+__pycache__/
+*.pyc
+*.zip
