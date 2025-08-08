@@ -1,56 +1,93 @@
-# README #
+# AffiniPay Candidate Exercise — Test Suite (pytest)
 
-## Info
+## Requirements
 
-This repository contains the source needed to execute a container that hosts a simple api. Please follow the instructions to get the api running on your local system and then 
-write automated test cases for the running api. Please make note of any bugs you find in the service in your response to us. Feel free to leverage whatever language/framework you are most comfortable with. 
+* Docker Desktop (with WSL2) on Windows, or Docker on macOS/Linux.
+* Python 3.12+ to run `pytest`.
 
-## Installing dependencies 
+---
 
-Please install the following dependencies:
+## 1) Run the API (Docker)
 
-1) Docker
-   1) https://docs.docker.com/engine/install/
-2) Git
-   1) https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
-
-## Cloning Exercise Repo
-```aidl
-git clone https://github.com/affinipay/candidate-exercise.git
-```
-
-## IMPORTANT NOTE - Windows Users
-
-If you are using a Windows system to complete this exercise, make sure that your IED is setup to use LF rather than CRLF for EndOfLine(EoL). If your system is using the wrong EoL designator, you will receive a 'No Such File' error when attempting to start the container 
-See this post for more information:
-
-[CRLF to LF in VisualStudios](https://www.petersplanet.nl/index.php/2023/08/28/line-breaks-in-visual-studio-code-and-git-lf-vs-crlf/#:~:text=In%20VS%20Code%20you%20easily,the%20settings%20with%20the%20%E2%80%9Cfiles.)
-## Building and Running Container
-To Build:
-```aidl
+```bash
 docker build -t exercise:1.0 .
-```
-To Run:
-```aidl
-docker run --name demo -it -p 5000:5000 exercise:1.0
-```
-You should now be able to access the api through this URL
-
-```aidl
-http://127.0.0.1:5000/dogs
+docker rm -f demo 2>/dev/null || true
+docker run --name demo -d -p 5000:5000 exercise:1.0
 ```
 
-## API SPEC
+Quick check:
 
-The api provides an endpoint to create, view and delete dogs from the system. 
-
-End users are allowed to create dogs by POSTing to http://127.0.0.1:5000/dogs, the request payload should contain the following fields
-
-```aidl
-{
-    "breed": <string>,
-    "age":   <int>,
-    "name":  <string>
-}
+```bash
+curl -L http://127.0.0.1:5000/dogs/
 ```
-The system assigns a unique ID to each dog created which will be visible in the POST response. This ID can be used to view and delete dogs from the system through the URL http://127.0.0.1:5000/dogs/<dog_id>
+
+---
+
+## 2) Run the tests
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements-tests.txt
+
+export DOGS_BASE_URL=http://127.0.0.1:5000
+pytest -q
+```
+
+---
+
+## Local results I got
+
+```
+3 passed, 4 xfailed, 1 xpassed
+```
+
+* **passed**: list works, create+get by id works, delete returns 404/410 (depends on the implementation).
+* **xfail**: validation cases marked as *expected to fail* when the API accepts invalid payloads (see below).
+* **xpassed**: if the API validates one of these cases correctly, it will appear as xpassed.
+
+---
+
+## 3) Files I added
+
+```
+requirements-tests.txt
+tests/
+  conftest.py
+  test_dogs_happy_path.py
+  test_dogs_validation.py
+  test_dogs_delete.py
+README-tests.md
+```
+
+---
+
+## 4) Notes / Findings
+
+* **Empty list format**: `GET /dogs/` returned `{}` in my environment. For empty collections, `[]` is the usual format.
+  The tests convert `{}` to `[]` so the happy path still works.
+* **Input validation** (marked as `xfail`):
+
+  * empty `breed`
+  * negative or non-integer `age`
+  * incomplete / empty payload
+    If the API does not reject these with `400/422`, the tests stay as `xfail` (to show the possible gap) without failing the suite.
+* **DELETE contract**: after deleting a dog, the test expects a `404/410` when getting it again. If the API sends another code, I documented the real behavior.
+
+---
+
+## 5) Troubleshooting
+
+* **Redirect `/dogs` → `/dogs/`**: use `curl -L` or point directly to the path with the trailing slash.
+* **Build error (Conda TOS)**: use the `RUN conda tos accept ...` shown in the original instructions, or change channels to `conda-forge`.
+* **Port 5000 in use**:
+
+```bash
+docker rm -f demo
+docker run --name demo -d -p 5001:5000 exercise:1.0
+export DOGS_BASE_URL=http://127.0.0.1:5001
+pytest -q
+```
+
+![Build](screenshots/affinipay-screenshot-1.jpg)
+![Tests](screenshots/affinipay-screenshot-2.jpg)
